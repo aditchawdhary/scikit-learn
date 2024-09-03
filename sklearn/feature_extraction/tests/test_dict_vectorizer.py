@@ -2,7 +2,6 @@
 #          Dan Blanchard <dblanchard@ets.org>
 # License: BSD 3 clause
 
-from random import Random
 import numpy as np
 import scipy.sparse as sp
 
@@ -12,6 +11,7 @@ from sklearn.utils.testing import (assert_equal, assert_in,
 
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
+import secrets
 
 
 def test_dictvectorizer():
@@ -101,7 +101,7 @@ def test_unseen_or_no_features():
 def test_deterministic_vocabulary():
     # Generate equal dictionaries with different memory layouts
     items = [("%03d" % i, i) for i in range(1000)]
-    rng = Random(42)
+    rng = secrets.SystemRandom().Random(42)
     d_sorted = dict(items)
     rng.shuffle(items)
     d_shuffled = dict(items)
