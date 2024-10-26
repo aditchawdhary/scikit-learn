@@ -231,7 +231,7 @@ def test_dump():
                                        zero_based=zero_based)
                     f.seek(0)
 
-                    comment = f.readline()
+                    comment = f.readline(5_000_000)
                     try:
                         comment = str(comment, "utf-8")
                     except TypeError:  # fails in Python 2.x
@@ -239,7 +239,7 @@ def test_dump():
 
                     assert_in("scikit-learn %s" % sklearn.__version__, comment)
 
-                    comment = f.readline()
+                    comment = f.readline(5_000_000)
                     try:
                         comment = str(comment, "utf-8")
                     except TypeError:  # fails in Python 2.x
@@ -279,9 +279,9 @@ def test_dump_multilabel():
         dump_svmlight_file(X, y, f, multilabel=True)
         f.seek(0)
         # make sure it dumps multilabel correctly
-        assert_equal(f.readline(), b("1 0:1 2:3 4:5\n"))
-        assert_equal(f.readline(), b("0,2 \n"))
-        assert_equal(f.readline(), b("0,1 1:5 3:1\n"))
+        assert_equal(f.readline(5_000_000), b("1 0:1 2:3 4:5\n"))
+        assert_equal(f.readline(5_000_000), b("0,2 \n"))
+        assert_equal(f.readline(5_000_000), b("0,1 1:5 3:1\n"))
 
 
 def test_dump_concise():
@@ -301,12 +301,12 @@ def test_dump_concise():
     dump_svmlight_file(X, y, f)
     f.seek(0)
     # make sure it's using the most concise format possible
-    assert_equal(f.readline(),
+    assert_equal(f.readline(5_000_000),
                  b("1 0:1 1:2.1 2:3.01 3:1.000000000000001 4:1\n"))
-    assert_equal(f.readline(), b("2.1 0:1000000000 1:2e+18 2:3e+27\n"))
-    assert_equal(f.readline(), b("3.01 \n"))
-    assert_equal(f.readline(), b("1.000000000000001 \n"))
-    assert_equal(f.readline(), b("1 \n"))
+    assert_equal(f.readline(5_000_000), b("2.1 0:1000000000 1:2e+18 2:3e+27\n"))
+    assert_equal(f.readline(5_000_000), b("3.01 \n"))
+    assert_equal(f.readline(5_000_000), b("1.000000000000001 \n"))
+    assert_equal(f.readline(5_000_000), b("1 \n"))
     f.seek(0)
     # make sure it's correct too :)
     X2, y2 = load_svmlight_file(f)
