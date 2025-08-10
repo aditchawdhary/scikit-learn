@@ -634,9 +634,9 @@ def load_linnerud(return_X_y=False):
                                     skiprows=1)
     # Read header
     with open(base_dir + 'linnerud_exercise.csv') as f:
-        header_exercise = f.readline().split()
+        header_exercise = f.readline(5_000_000).split()
     with open(base_dir + 'linnerud_physiological.csv') as f:
-        header_physiological = f.readline().split()
+        header_physiological = f.readline(5_000_000).split()
     with open(dirname(__file__) + '/descr/linnerud.rst') as f:
         descr = f.read()
 
